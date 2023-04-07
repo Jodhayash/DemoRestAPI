@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itvedant.restapp.dto.EmployeeDTO;
 import com.itvedant.restapp.dto.EmployeeName;
 import com.itvedant.restapp.entity.Employee;
+import com.itvedant.restapp.exceptions.EmployeeNotFoundException;
 import com.itvedant.restapp.service.EmployeeService;
 
 @RestController
@@ -86,5 +88,10 @@ public class EmployeeController {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(employee, HttpStatus.OK);
+	}
+	
+	@ExceptionHandler(value = EmployeeNotFoundException.class)
+	public ResponseEntity<String> EmployeeNotFoundHandler(EmployeeNotFoundException exception){
+		return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 }

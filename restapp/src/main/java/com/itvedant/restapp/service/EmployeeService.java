@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.itvedant.restapp.dto.EmployeeDTO;
 import com.itvedant.restapp.dto.EmployeeName;
 import com.itvedant.restapp.entity.Employee;
+import com.itvedant.restapp.exceptions.EmployeeNotFoundException;
 import com.itvedant.restapp.repository.EmployeeRepository;
 
 @Service
@@ -48,7 +49,7 @@ public class EmployeeService {
 		Employee emp = employeeRepository.findById(empId).orElse(null);
 
 		if (emp == null) {
-			return null;
+			throw new EmployeeNotFoundException("EmployeeNotFound");
 		}
 
 		EmployeeDTO empDto = new EmployeeDTO();
